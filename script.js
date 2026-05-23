@@ -58,7 +58,7 @@ async function newVerse() {
       `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/passages/${encodeURIComponent(reference)}`,
       {
         headers: {
-          "api-key": qowP1PQAzWM3qUgC6Wcxt
+          "api-key": API_KEY
         }
       }
     );

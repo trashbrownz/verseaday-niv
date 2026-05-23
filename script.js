@@ -1,4 +1,5 @@
-const API_KEY = "qowP1PQAzWM3qUgC6Wcxt";
+
+const API_KEY = "c_k2y-KilAceVwJogkFMA";
 const BIBLE_ID = "78a9f6124f344018-01";
 
 /*

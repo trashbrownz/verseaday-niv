@@ -1,54 +1,54 @@
 const API_KEY = "c_k2y-KilAceVwJogkFMA";
 const BIBLE_ID = "78a9f6124f344018-01";
 
-/* New Testament books in API format */
-const books = {
-  MAT: 28,
-  MRK: 16,
-  LUK: 24,
-  JHN: 21,
-  ACT: 28,
-  ROM: 16,
-  "1CO": 16,
-  "2CO": 13,
-  GAL: 6,
-  EPH: 6,
-  PHP: 4,
-  COL: 4,
-  "1TH": 5,
-  "2TH": 3,
-  "1TI": 6,
-  "2TI": 4,
-  TIT: 3,
-  PHM: 1,
-  HEB: 13,
-  JAS: 5,
-  "1PE": 5,
-  "2PE": 3,
-  "1JN": 5,
-  "2JN": 1,
-  "3JN": 1,
-  JUD: 1,
-  REV: 22
-};
+/* NT books (human-readable format for passages API) */
+const books = [
+  "Matthew",
+  "Mark",
+  "Luke",
+  "John",
+  "Acts",
+  "Romans",
+  "1 Corinthians",
+  "2 Corinthians",
+  "Galatians",
+  "Ephesians",
+  "Philippians",
+  "Colossians",
+  "1 Thessalonians",
+  "2 Thessalonians",
+  "1 Timothy",
+  "2 Timothy",
+  "Titus",
+  "Philemon",
+  "Hebrews",
+  "James",
+  "1 Peter",
+  "2 Peter",
+  "1 John",
+  "2 John",
+  "3 John",
+  "Jude",
+  "Revelation"
+];
 
-function getRandomVerseId() {
-  const bookKeys = Object.keys(books);
-
-  const book = bookKeys[Math.floor(Math.random() * bookKeys.length)];
-  const chapter = Math.floor(Math.random() * books[book]) + 1;
-  const verse = Math.floor(Math.random() * 25) + 1;
-
-  // API.Bible format
-  return `${book}.${chapter}.${verse}`;
+function randomInt(max) {
+  return Math.floor(Math.random() * max) + 1;
 }
 
 async function newVerse() {
-  const verseId = getRandomVerseId();
+
+  const book = books[Math.floor(Math.random() * books.length)];
+
+  const chapter = randomInt(10); // safe-ish random range
+  const verse = randomInt(25);
+
+  const reference = `${book} ${chapter}:${verse}`;
 
   try {
+
     const res = await fetch(
-      `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/verses/${verseId}`,
+      `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/passages/${encodeURIComponent(reference)}`,
       {
         headers: {
           "api-key": API_KEY
@@ -58,11 +58,10 @@ async function newVerse() {
 
     const data = await res.json();
 
-    console.log("API response:", data);
+    console.log(data);
 
     if (!res.ok || !data.data) {
-      // retry silently if invalid verse
-      return newVerse();
+      return newVerse(); // retry invalid verses
     }
 
     document.getElementById("reference").innerText =
@@ -72,9 +71,11 @@ async function newVerse() {
       data.data.content.replace(/<[^>]*>/g, "");
 
   } catch (err) {
+
     console.error(err);
 
     document.getElementById("reference").innerText = "Error";
+
     document.getElementById("verse-text").innerText =
       "Could not load verse.";
   }
@@ -91,5 +92,4 @@ document.getElementById("date").innerText =
     year: "numeric"
   });
 
-/* First load */
 newVerse();

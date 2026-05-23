@@ -1,11 +1,4 @@
-fetch('https://api.scripture.api.bible/v1/bibles', {
-  method: 'GET',
-  headers: {
-    'api-key': 'qowP1PQAzWM3qUgC6Wcxt'
-  }
-})
-.then(response => response.json())
-.then(data => console.log(data));
+const API_KEY = "qowP1PQAzWM3qUgC6Wcxt";
 
 const BIBLE_ID = "78a9f6124f344018-01";
 
@@ -65,7 +58,7 @@ async function newVerse() {
       `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/passages/${encodeURIComponent(reference)}`,
       {
         headers: {
-          "api-key": API_KEY
+          "api-key": qowP1PQAzWM3qUgC6Wcxt
         }
       }
     );

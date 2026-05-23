@@ -7,9 +7,6 @@ fetch('https://api.scripture.api.bible/v1/bibles', {
 .then(response => response.json())
 .then(data => console.log(data));
 
-
-const API_KEY = "qowP1PQAzWM3qUgC6Wcxt";
-
 const BIBLE_ID = "78a9f6124f344018-01";
 
 const books = {

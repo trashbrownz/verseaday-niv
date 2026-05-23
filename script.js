@@ -3,33 +3,33 @@ const API_KEY = "qowP1PQAzWM3qUgC6Wcxt";
 const BIBLE_ID = "78a9f6124f344018-01";
 
 const books = {
-  MAT: 28,
-  MRK: 16,
-  LUK: 24,
-  JHN: 21,
-  ACT: 28,
-  ROM: 16,
-  "1CO": 16,
-  "2CO": 13,
-  GAL: 6,
-  EPH: 6,
-  PHP: 4,
-  COL: 4,
-  "1TH": 5,
-  "2TH": 3,
-  "1TI": 6,
-  "2TI": 4,
-  TIT: 3,
-  PHM: 1,
-  HEB: 13,
-  JAS: 5,
-  "1PE": 5,
-  "2PE": 3,
-  "1JN": 5,
-  "2JN": 1,
-  "3JN": 1,
-  JUD: 1,
-  REV: 22
+  Matthew: 28,
+  Mark: 16,
+  Luke: 24,
+  John: 21,
+  Acts: 28,
+  Romans: 16,
+  "1 Corinthians": 16,
+  "2 Corinthians": 13,
+  Galatians: 6,
+  Ephesians: 6,
+  Philippians: 4,
+  Colossians: 4,
+  "1 Thessalonians": 5,
+  "2 Thessalonians": 3,
+  "1 Timothy": 6,
+  "2 Timothy": 4,
+  Titus: 3,
+  Philemon: 1,
+  Hebrews: 13,
+  James: 5,
+  "1 Peter": 5,
+  "2 Peter": 3,
+  "1 John": 5,
+  "2 John": 1,
+  "3 John": 1,
+  Jude: 1,
+  Revelation: 22
 };
 
 async function newVerse() {
@@ -38,9 +38,7 @@ async function newVerse() {
 
   const randomBook =
     bookNames[
-      Math.floor(
-        Math.random() * bookNames.length
-      )
+      Math.floor(Math.random() * bookNames.length)
     ];
 
   const maxChapter = books[randomBook];
@@ -48,16 +46,16 @@ async function newVerse() {
   const randomChapter =
     Math.floor(Math.random() * maxChapter) + 1;
 
-  const verseNumber =
-    Math.floor(Math.random() * 30) + 1;
+  const randomVerse =
+    Math.floor(Math.random() * 20) + 1;
 
-  const verseId =
-    `${randomBook}.${randomChapter}.${verseNumber}`;
+  const reference =
+    `${randomBook} ${randomChapter}:${randomVerse}`;
 
   try {
 
     const response = await fetch(
-      `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/verses/${verseId}`,
+      `https://api.scripture.api.bible/v1/bibles/${BIBLE_ID}/passages/${encodeURIComponent(reference)}`,
       {
         headers: {
           "api-key": API_KEY
@@ -67,18 +65,22 @@ async function newVerse() {
 
     const data = await response.json();
 
+    console.log(data);
+
     if (!data.data) {
       newVerse();
       return;
     }
 
     document.getElementById("reference").innerText =
-      data.data.reference;
+      reference;
 
     document.getElementById("verse-text").innerHTML =
       data.data.content.replace(/<[^>]*>/g, '');
 
   } catch (error) {
+
+    console.error(error);
 
     document.getElementById("reference").innerText =
       "Error";

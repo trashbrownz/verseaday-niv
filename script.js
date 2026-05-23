@@ -1,3 +1,12 @@
+fetch("https://api.scripture.api.bible/v1/bibles", {
+  headers: {
+    "api-key": "c_k2y-KilAceVwJogkFMA"
+  }
+})
+.then(r => r.json())
+.then(console.log)
+.catch(console.error);
+
 
 const API_KEY = "c_k2y-KilAceVwJogkFMA";
 const BIBLE_ID = "78a9f6124f344018-01";
